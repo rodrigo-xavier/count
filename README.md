@@ -1,6 +1,6 @@
 Compila o código desejado
     
-       gcc trab1.c -o trab1
+    gcc trab1.c -o trab1
 
 Lista todos os processos e faz um filtro pelo processo desejado
 
