@@ -1,3 +1,58 @@
+# Compila o código desejado
+    
+       gcc trab1.c -o trab1
+
+# Lista todos os processos e faz um filtro pelo processo desejado
+
+    top -p `pgrep trab1 | tr "\\n" "," | sed 's/,$//'`
+
+# Mostra a árvore de processos e realiza um filtro pelo processo desejado
+
+    pstree -snp `pgrep gnome-terminal | head -1`
+
+# ps = process status
+
+    ps aux | grep trab1
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ### `VIRTUALENVS` == Virtual Environments
 
 Comando do python que cria a virtualenv (Ambiente isolado python. Normalmente não é colocada no github, cada pessoa pode criar seu próprio ambiente)
