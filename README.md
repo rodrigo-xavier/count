@@ -1,9 +1,15 @@
     
     gcc trab1.c -o trab1
 
+.
+
     top -p `pgrep trab1 | tr "\\n" "," | sed 's/,$//'`
 
+.
+
     pstree -snp `pgrep gnome-terminal | head -1`
+
+.
 
     ps aux | grep trab1
 
