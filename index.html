@@ -1,58 +1,128 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <style>
-      body {
-        background-color: black;
-      }
-      p {
-        text-align: center;
-        font-size: 60px;
-        margin-top: 0px;
-        color: white;
-      }
-      h1 {
-        text-align: center;
-        font-size: 30px;
-        margin-top: 10px;
-        color: #ff0000;
-      }
-    </style>
-  </head>
-  <body>
-    <p id="demo"></p>
+<html><head><base href="https://websim.ai/timer/" /><title>Colorful Countdown Timer</title>
+<style>
+body {
+    font-family: Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    background: linear-gradient(45deg, #3498db, #8e44ad);
+    transition: background 0.5s ease;
+}
 
-    <script>
-      // Set the date we're counting down to
-      var countDownDate = new Date("October 14, 2024 00:00:01").getTime();
+.container {
+    text-align: center;
+    background: rgba(255, 255, 255, 0.8);
+    padding: 2rem;
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+}
 
-      // Update the count down every 1 second
-      var x = setInterval(function () {
-        // Get today's date and time
-        var now = new Date().getTime();
+#countdown {
+    font-size: 5rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+    transition: color 0.5s ease;
+}
 
-        // Find the distance between now and the count down date
-        var distance = countDownDate - now;
+input {
+    margin: 1rem 0;
+    padding: 0.5rem;
+    width: 200px;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
 
-        // Time calculations for days, hours, minutes and seconds
-        var days = Math.floor(distance / (1000 * 60 * 60 * 24));
-        var hours = Math.floor(
-          (distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
-        );
-        var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-        var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+button {
+    background-color: #2ecc71;
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border-radius: 4px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    margin-top: 1rem;
+    display: inline-block;
+    width: auto;
+}
 
-        // Output the result in an element with id="demo"
-        document.getElementById("demo").innerHTML =
-          days + "d " + hours + "h " + minutes + "m " + seconds + "s ";
+button:hover {
+    background-color: #27ae60;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
 
-        // If the count down is over, write some text
+button:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+</style>
+</head>
+<body>
+<div class="container">
+    <div id="countdown">Enter a future date and time</div>
+    <br>
+    <br>
+    <input type="datetime-local" id="endDate">
+    <br>
+    <button onclick="startCountdown()">Start Countdown</button>
+</div>
+
+<script>
+let countdownInterval;
+
+// Color palette
+const colorPalette = [
+    '#FF6B6B', '#4ECDC4', '#45B7D1', '#FFA07A', 
+    '#98D8C8', '#F67280', '#C06C84', '#6C5B7B',
+    '#355C7D', '#F8B195', '#F67280', '#C06C84'
+];
+
+// Set default date to 7 days from now
+const defaultDate = new Date(2024, 9, 14, 0, 0, 0);
+document.getElementById('endDate').valueAsNumber = defaultDate.getTime() - defaultDate.getTimezoneOffset() * 60000;
+
+function getRandomColor() {
+    return colorPalette[Math.floor(Math.random() * colorPalette.length)];
+}
+
+function setRandomColor() {
+    const color = getRandomColor();
+    document.getElementById('countdown').style.color = "#000";
+    document.body.style.background = `linear-gradient(45deg, ${color}, ${getRandomColor()})`;
+}
+
+function startCountdown() {
+    clearInterval(countdownInterval);
+    const endDate = new Date(document.getElementById('endDate').value).getTime();
+
+    setRandomColor();
+
+    countdownInterval = setInterval(function() {
+        const now = new Date().getTime();
+        const distance = endDate - now;
+
         if (distance < 0) {
-          clearInterval(x);
-          document.getElementById("demo").innerHTML = "EXPIRED";
+            clearInterval(countdownInterval);
+            document.getElementById('countdown').innerHTML = "EXPIRED";
+            return;
         }
-      }, 1000);
-    </script>
-  </body>
-</html>
+
+        const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+        document.getElementById('countdown').innerHTML = 
+            `${days}d ${hours}h ${minutes}m ${seconds}s`;
+    }, 1000);
+}
+
+// Start the countdown immediately with the default date
+startCountdown();
+</script>
+</body></html>
